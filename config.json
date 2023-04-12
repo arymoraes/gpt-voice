@@ -1,0 +1,6 @@
+{
+  "trigger_phrase": "overlord",
+  "tts_speed": 1.1,
+  "min_words": 1,
+  "instructions": ""
+}
