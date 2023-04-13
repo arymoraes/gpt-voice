@@ -40,6 +40,8 @@ class App:
 
                 self.instructions_text.delete(1.0, tk.END)
                 self.instructions_text.insert(tk.END, settings["instructions"])
+
+                self.language.set(settings["language"])
         except FileNotFoundError:
             print(
                 f"Settings file '{settings_file}' not found. Using default settings.")
@@ -77,6 +79,7 @@ class App:
             "tts_speed": float(self.tts_speed_entry.get()),
             "selected_mic": self.selected_mic.get(),
             "instructions": self.instructions_text.get(1.0, tk.END).strip(),
+            "language": self.language
         }
 
         with open(settings_file, "w") as f:
