@@ -1,5 +1,3 @@
-# audio_utils.py
-
 import os
 import tempfile
 from gtts import gTTS
@@ -8,9 +6,14 @@ from pydub.playback import play
 import speech_recognition as sr
 
 
-def listen_to_microphone():
+def get_microphone_list():
+    mic_list = sr.Microphone.list_microphone_names()
+    return mic_list
+
+
+def listen_to_microphone(mic_index, languages):
     recognizer = sr.Recognizer()
-    with sr.Microphone() as source:
+    with sr.Microphone(device_index=mic_index) as source:
         print("Listening...")
         try:
             audio = recognizer.listen(source, timeout=15, phrase_time_limit=10)
@@ -20,7 +23,8 @@ def listen_to_microphone():
 
     try:
         print("Recognizing...")
-        text = recognizer.recognize_google(audio)
+        text = recognizer.recognize_google(
+            audio, language=languages[0])  # Use the passed language
         print(f"Text: {text}")
         return text
     except Exception as e:
@@ -28,13 +32,8 @@ def listen_to_microphone():
         return ""
 
 
-def write_to_file(text, file_name="output.txt"):
-    with open(file_name, "a") as file:
-        file.write(text + "\n")
-
-
-def text_to_speech(text, speed=1.1):
-    tts = gTTS(text=text, lang='en')
+def text_to_speech(text, speed=1.1, lang="en"):
+    tts = gTTS(text=text, lang=lang)
     with tempfile.NamedTemporaryFile(delete=False, suffix='.mp3') as fp:
         temp_path = fp.name
     tts.save(temp_path)
@@ -49,3 +48,8 @@ def text_to_speech(text, speed=1.1):
 
     os.remove(temp_path)
     os.remove(temp_fast_path)
+
+
+def write_to_file(text, file_name="output.txt"):
+    with open(file_name, "a") as file:
+        file.write(text + "\n")
