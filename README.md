@@ -1,6 +1,6 @@
 # Voice Assistant
 
-A Voice Assistant using OpenAI GPT-4 and speech recognition.
+A Voice Assistant using OpenAI GPT-3.5 and speech recognition.
 
 ## Prerequisites
 
